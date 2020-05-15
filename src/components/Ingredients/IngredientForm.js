@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Card from "../UI/Card";
+import Card from "../UI/Card.tsx";
 import LoadingIndicator from "./../UI//LoadingIndicator";
 import "./IngredientForm.css";
 

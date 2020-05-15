@@ -1,7 +1,7 @@
 import React, { useCallback, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
-import IngredientList from "./IngredientList";
+import IngredientList from "./IngredientList.tsx";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
 
