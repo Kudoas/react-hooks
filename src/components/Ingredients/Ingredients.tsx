@@ -1,24 +1,24 @@
 import React, { useCallback, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
-import IngredientList from "./IngredientList.tsx";
+import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
 
-const ingredientReducer = (currentIngredients, action) => {
+const ingredientReducer = (currentIngredients: any, action: any) => {
   switch (action.type) {
     case "SET":
       return action.ingredients;
     case "ADD":
       return [...currentIngredients, action.ingredient];
     case "DELETE":
-      return currentIngredients.filter((ing) => ing.id !== action.id);
+      return currentIngredients.filter((ing: any) => ing.id !== action.id);
     default:
       throw new Error("Should not get there!");
   }
 };
 
-const httpReducer = (currentHttpState, action) => {
+const httpReducer = (currentHttpState: any, action: any) => {
   switch (action.type) {
     case "SEND":
       return { loading: true, error: null };
@@ -33,7 +33,7 @@ const httpReducer = (currentHttpState, action) => {
   }
 };
 
-const Ingredients = () => {
+const Ingredients: React.FCX = ({ className }) => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
   const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null });
 
@@ -41,26 +41,29 @@ const Ingredients = () => {
     dispatch({ type: "SET", ingredients: filteredIngredients });
   }, []);
 
-  const addIngredientsHandler = (ingredient) => {
+  const addIngredientsHandler = (ingredient: any) => {
     dispatchHttp({ type: "SEND" });
-    fetch(process.env.REACT_APP_FIREBASE_DATABASE, {
+    fetch("https://react-hooks-a3cd2.firebaseio.com/ingredients.json", {
       method: "POST",
       body: JSON.stringify(ingredient),
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => {
+      .then((res: any) => {
         dispatchHttp({ type: "RESPONSE" });
         return res.json();
       })
-      .then((resData) => {
+      .then((resData: any) => {
         dispatch({
           type: "ADD",
           ingredient: { id: resData.name, ...ingredient },
         });
+      })
+      .catch((err: any) => {
+        dispatchHttp({ type: "ERROR", errorMessage: "Something went wrong!" });
       });
   };
 
-  const removeIngredientsHandler = (ingredientId) => {
+  const removeIngredientsHandler = (ingredientId: string) => {
     dispatchHttp({ type: "SEND" });
     fetch(`https://react-hooks-a3cd2.firebaseio.com/ingredients/${ingredientId}.json`, {
       method: "DELETE",
@@ -79,7 +82,7 @@ const Ingredients = () => {
   };
 
   return (
-    <div className="App">
+    <div className={className}>
       {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
       <IngredientForm onAddIngredient={addIngredientsHandler} loading={httpState.loading} />
       <section>
