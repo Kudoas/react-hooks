@@ -1,9 +1,10 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, Fragment } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
+import Toolbar from "../Navigation/Toolbar";
 
 const ingredientReducer = (currentIngredients: any, action: any) => {
   switch (action.type) {
@@ -82,14 +83,17 @@ const Ingredients: React.FCX = ({ className }) => {
   };
 
   return (
-    <div className={className}>
-      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
-      <IngredientForm onAddIngredient={addIngredientsHandler} loading={httpState.loading} />
-      <section>
-        <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientsHandler} />
-      </section>
-    </div>
+    <Fragment>
+      <Toolbar />
+      <div className={className}>
+        {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
+        <IngredientForm onAddIngredient={addIngredientsHandler} loading={httpState.loading} />
+        <section>
+          <Search onLoadIngredients={filteredIngredientsHandler} />
+          <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientsHandler} />
+        </section>
+      </div>
+    </Fragment>
   );
 };
 

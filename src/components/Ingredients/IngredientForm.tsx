@@ -54,15 +54,14 @@ const IngredientForm: React.FCX<Props> = (props) => {
 
 const StyledIngredientForm = styled(IngredientForm)`
   width: 30rem;
-  margin: 2rem auto;
+  margin: 20px auto;
+  padding-top: 80px;
   max-width: 80%;
-
   label,
   input {
     display: block;
     width: 100%;
   }
-
   input {
     font: inherit;
     padding: 0.1rem 0.25rem;
@@ -70,12 +69,10 @@ const StyledIngredientForm = styled(IngredientForm)`
     border-bottom: 2px solid #ccc;
     margin-bottom: 1rem;
   }
-
   input:focus {
     outline: none;
     border-bottom-color: #ff2058;
   }
-
   .ingredient-form__actions {
     display: flex;
     justify-content: space-between;
