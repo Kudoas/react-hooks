@@ -5,6 +5,7 @@ import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
 import Toolbar from "../Navigation/Toolbar";
+import Timer from "../Timer/Timer";
 
 const ingredientReducer = (currentIngredients: any, action: any) => {
   switch (action.type) {
@@ -85,6 +86,7 @@ const Ingredients: React.FCX = ({ className }) => {
   return (
     <Fragment>
       <Toolbar />
+      <Timer />
       <div className={className}>
         {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
         <IngredientForm onAddIngredient={addIngredientsHandler} loading={httpState.loading} />
