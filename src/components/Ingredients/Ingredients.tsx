@@ -86,7 +86,6 @@ const Ingredients: React.FCX = ({ className }) => {
   return (
     <Fragment>
       <Toolbar />
-      <Timer />
       <div className={className}>
         {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
         <IngredientForm onAddIngredient={addIngredientsHandler} loading={httpState.loading} />
@@ -95,6 +94,7 @@ const Ingredients: React.FCX = ({ className }) => {
           <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientsHandler} />
         </section>
       </div>
+      <Timer />
     </Fragment>
   );
 };

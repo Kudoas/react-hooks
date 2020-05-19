@@ -1,69 +1,39 @@
-import React from "react";
-// import styled from "@emotion/styled";
+import React, { useState, useEffect } from "react";
 
-type State = {
-  time: number;
-  start: number;
-  isOn: boolean;
-};
+const Timer: React.FCX = ({ className }) => {
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
-class Timer extends React.PureComponent<{}, State> {
-  state = {
-    time: 0,
-    start: 0,
-    isOn: false,
+  const toggle = (): void => {
+    setIsActive(!isActive);
   };
 
-  timer: number = 0;
-
-  startTimer = (): void => {
-    this.setState({
-      time: this.state.time,
-      start: Date.now() - this.state.time,
-      isOn: true,
-    });
-    this.timer = window.setInterval(
-      () =>
-        this.setState({
-          time: Date.now() - this.state.start,
-        }),
-      1
-    );
-    console.log("start");
+  const reset = (): void => {
+    setSeconds(0);
+    setIsActive(false);
   };
 
-  stopTimer = (): void => {
-    this.setState({ isOn: false });
-    clearInterval(this.timer);
-    console.log("stop");
-  };
+  useEffect(() => {
+    let interval: any = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds + 1);
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
 
-  resetTimer = (): void => {
-    this.setState({ time: 0 });
-    console.log("reset");
-  };
-
-  render() {
-    let start = this.state.time === 0 ? <button onClick={this.startTimer}>start</button> : null;
-    let stop = this.state.isOn ? <button onClick={this.stopTimer}>stop</button> : null;
-    let reset =
-      this.state.time !== 0 && !this.state.isOn ? (
-        <button onClick={this.resetTimer}>reset</button>
-      ) : null;
-    let resume =
-      this.state.time !== 0 && !this.state.isOn ? (
-        <button onClick={this.startTimer}>resume</button>
-      ) : null;
-    return (
+  return (
+    <div>
+      <div>{seconds}s</div>
       <div>
-        <h3>timer: {this.state.time}</h3>
-        {start}
-        {resume}
-        {stop}
-        {reset}
+        <button onClick={toggle}>{isActive ? "Pause" : "Start"}</button>
+        <button onClick={reset}>Reset</button>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Timer;
