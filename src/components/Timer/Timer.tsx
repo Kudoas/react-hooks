@@ -14,6 +14,7 @@ const Timer: React.FCX = ({ className }) => {
   };
 
   useEffect(() => {
+    console.log("useEffect");
     let interval: any = null;
     if (isActive) {
       interval = setInterval(() => {

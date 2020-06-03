@@ -1,5 +1,6 @@
-import React, { useCallback, useReducer, Fragment } from "react";
+import React, { useCallback, useReducer, useContext, Fragment } from "react";
 
+import { UserPost } from "../../App";
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
@@ -42,6 +43,8 @@ const Ingredients: React.FCX = ({ className }) => {
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
     dispatch({ type: "SET", ingredients: filteredIngredients });
   }, []);
+
+  const count = useContext(UserPost);
 
   const addIngredientsHandler = (ingredient: any) => {
     dispatchHttp({ type: "SEND" });
@@ -94,6 +97,7 @@ const Ingredients: React.FCX = ({ className }) => {
           <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientsHandler} />
         </section>
       </div>
+      <p>{count}</p>
       <Timer />
     </Fragment>
   );
